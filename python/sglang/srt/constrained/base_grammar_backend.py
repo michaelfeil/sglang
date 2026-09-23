@@ -30,6 +30,7 @@ from sglang.srt.runtime_context import (
     get_serving,
 )
 from sglang.srt.server_args import ServerArgs
+from sglang.srt.utils.nvtx_utils import operations_nvtx_range
 
 logger = logging.getLogger(__name__)
 
@@ -81,16 +82,24 @@ class BaseGrammarObject:
     ) -> torch.Tensor:
         raise NotImplementedError()
 
-    def fill_vocab_mask(self, vocab_mask: torch.Tensor, idx: int) -> None:
+    def fill_vocab_mask(self, vocab_mask: torch.Tensor, idx: int) -> Optional[bool]:
+        """Fill a row; False proves it is unrestricted, None is conservative."""
         raise NotImplementedError()
 
     @staticmethod
     def fill_vocab_mask_batched(
         entries: List[GrammarRow], vocab_mask: torch.Tensor
-    ) -> None:
-        """Fill listed rows, leaving unlisted rows untouched."""
+    ) -> Optional[bool]:
+        """Fill every listed row; False proves no row needs masking.
+
+        Legacy backends return None, which must still apply the mask. Do not
+        short-circuit the loop: later rows still need to be filled.
+        """
+        need_apply = False
         for entry in entries:
-            entry.grammar.fill_vocab_mask(vocab_mask, entry.row)
+            row_needs_mask = entry.grammar.fill_vocab_mask(vocab_mask, entry.row)
+            need_apply = (row_needs_mask is not False) or need_apply
+        return need_apply
 
     @staticmethod
     def reset_vocab_mask(vocab_mask: torch.Tensor) -> None:
@@ -155,7 +164,8 @@ class GrammarMask(NamedTuple):
     vocab_mask: torch.Tensor
 
     def apply(self, logits: torch.Tensor) -> None:
-        self.grammar.apply_vocab_mask(logits=logits, vocab_mask=self.vocab_mask)
+        with operations_nvtx_range("grammar.apply"):
+            self.grammar.apply_vocab_mask(logits=logits, vocab_mask=self.vocab_mask)
 
 
 def _grammar_key_contains_nul(key_type: str, key_string: str) -> bool:

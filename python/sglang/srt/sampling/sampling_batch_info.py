@@ -17,6 +17,7 @@ from sglang.srt.sampling.custom_logit_processor import CustomLogitProcessor
 from sglang.srt.sampling.penaltylib.repetition_penalty import apply_scaling_penalties
 from sglang.srt.sampling.sampling_params import TOP_K_ALL
 from sglang.srt.utils.common import is_pin_memory_available
+from sglang.srt.utils.nvtx_utils import operations_nvtx_range
 
 if TYPE_CHECKING:
     from sglang.srt.managers.schedule_batch import ScheduleBatch
@@ -292,26 +293,35 @@ class SamplingBatchInfo:
             self.grammar_mask = None
             return
 
-        # Find a grammar from the list
-        first_grammar = next(grammar for grammar in self.grammars if grammar)
-
-        vocab_mask = first_grammar.allocate_vocab_mask(
-            vocab_size=self.vocab_size,
-            batch_size=len(self.temperatures),
-            device=self.device,
-        )
-
-        # Rows omitted here (finished / terminated / non-grammar requests) retain
-        # the freshly allocated buffer's unconstrained value.
         entries = [
             GrammarRow(row=row, grammar=grammar)
             for row, grammar in enumerate(self.grammars)
             if grammar and not grammar.finished and not grammar.is_terminated()
         ]
-        first_grammar.fill_vocab_mask_batched(entries, vocab_mask)
+        if not entries:
+            self.grammar_mask = None
+            return
+
+        first_grammar = entries[0].grammar
+        # Omitted rows retain the freshly allocated buffer's unrestricted value.
+        with operations_nvtx_range("grammar.allocate"):
+            vocab_mask = first_grammar.allocate_vocab_mask(
+                vocab_size=self.vocab_size,
+                batch_size=len(self.temperatures),
+                device=self.device,
+            )
+        with operations_nvtx_range("grammar.fill"):
+            need_apply = first_grammar.fill_vocab_mask_batched(entries, vocab_mask)
+
+        # Only an explicit False proves the whole batch is unrestricted. Legacy
+        # backends return None; mixed batches must still apply restricted rows.
+        if need_apply is False:
+            self.grammar_mask = None
+            return
 
         # Move the mask to the device if needed
-        vocab_mask = first_grammar.move_vocab_mask(vocab_mask, self.device)
+        with operations_nvtx_range("grammar.transfer"):
+            vocab_mask = first_grammar.move_vocab_mask(vocab_mask, self.device)
         self.grammar_mask = GrammarMask(first_grammar, vocab_mask)
 
     def update_penalties(self):

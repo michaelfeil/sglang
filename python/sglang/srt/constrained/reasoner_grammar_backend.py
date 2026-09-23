@@ -167,10 +167,10 @@ class ReasonerGrammarObject(BaseGrammarObject):
         if self.token_filter_fn is not None:
             self.token_filter_fn(vocab_mask, token_ids, idx, is_allowed)
 
-    def fill_vocab_mask(self, vocab_mask: torch.Tensor, idx: int) -> None:
+    def fill_vocab_mask(self, vocab_mask: torch.Tensor, idx: int) -> Optional[bool]:
         if self._is_thinking():
             if not self.enable_token_filter:
-                return
+                return False
             if self._can_think_more():
                 if self.think_excluded_token_ids is not None:
                     self._do_token_filter(
@@ -179,6 +179,7 @@ class ReasonerGrammarObject(BaseGrammarObject):
                         idx,
                         is_allowed=False,
                     )
+                    return True
             else:
                 self._do_token_filter(
                     vocab_mask,
@@ -186,9 +187,11 @@ class ReasonerGrammarObject(BaseGrammarObject):
                     idx,
                     is_allowed=True,
                 )
-            return
+                return True
+            return False
         if self._is_generation() and self.grammar is not None:
-            self.grammar.fill_vocab_mask(vocab_mask, idx)
+            return self.grammar.fill_vocab_mask(vocab_mask, idx)
+        return False
 
     def allocate_vocab_mask(self, vocab_size, batch_size, device):
         if self.grammar is not None:

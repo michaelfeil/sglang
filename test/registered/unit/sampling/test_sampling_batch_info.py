@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 
 import torch
 
-from sglang.srt.constrained.base_grammar_backend import GrammarMask
+from sglang.srt.constrained.base_grammar_backend import BaseGrammarObject, GrammarMask
 from sglang.srt.sampling.custom_logit_processor import DisallowedTokensLogitsProcessor
 from sglang.srt.sampling.sampling_batch_info import (
     ProcessorEntry,
@@ -343,6 +343,91 @@ class TestUpdatePenalties(CustomTestCase):
 
 # update_regex_vocab_mask
 class TestUpdateRegexVocabMask(CustomTestCase):
+    def test_real_xgrammar_mixed_batch_and_transition_to_unrestricted(self):
+        import xgrammar as xgr
+
+        from sglang.srt.constrained.xgrammar_backend import XGrammarGrammar
+
+        tokenizer = xgr.TokenizerInfo(["a", "b", "<eos>"], stop_token_ids=[2])
+        compiler = xgr.GrammarCompiler(tokenizer)
+
+        def grammar(regex):
+            ctx = compiler.compile_regex(regex)
+            return XGrammarGrammar(xgr.GrammarMatcher(ctx), 3, ctx, None)
+
+        unrestricted = grammar("[ab]*")
+        restricted = grammar("a")
+        finished = grammar("b")
+        finished.finished = True
+        info = _make_info(batch_size=4, vocab_size=3)
+        info.grammars = [unrestricted, restricted, None, finished]
+        info.update_regex_vocab_mask()
+        logits = torch.zeros(4, 3)
+        info.grammar_mask.apply(logits)
+        expected = torch.zeros_like(logits)
+        expected[1, 1:] = -float("inf")
+        torch.testing.assert_close(logits, expected)
+
+        restricted.accept_token(0)
+        info.update_regex_vocab_mask()
+        logits.zero_()
+        info.grammar_mask.apply(logits)
+        expected.zero_()
+        expected[1, :2] = -float("inf")
+        torch.testing.assert_close(logits, expected)
+
+        restricted.accept_token(2)
+        with patch.object(unrestricted, "move_vocab_mask") as move:
+            info.update_regex_vocab_mask()
+        self.assertIsNone(info.grammar_mask)
+        move.assert_not_called()
+
+    def test_inactive_batch_does_not_allocate(self):
+        finished = MagicMock(finished=True)
+        terminated = MagicMock(finished=False)
+        terminated.is_terminated.return_value = True
+        for grammars in ([None], [finished, terminated, None]):
+            info = _make_info(batch_size=len(grammars))
+            info.grammars = grammars
+            info.grammar_mask = MagicMock()
+            info.update_regex_vocab_mask()
+            self.assertIsNone(info.grammar_mask)
+        finished.allocate_vocab_mask.assert_not_called()
+        terminated.allocate_vocab_mask.assert_not_called()
+
+    def test_need_apply_contract_and_mixed_rows(self):
+        for decisions in (
+            [False],
+            [False, False],
+            [True, False],
+            [False, True],
+            [None, False],
+        ):
+            with self.subTest(decisions=decisions):
+                grammars = []
+                for decision in decisions:
+                    grammar = MagicMock(finished=False)
+                    grammar.is_terminated.return_value = False
+                    grammar.fill_vocab_mask.return_value = decision
+                    grammar.fill_vocab_mask_batched.side_effect = (
+                        BaseGrammarObject.fill_vocab_mask_batched
+                    )
+                    grammars.append(grammar)
+                info = _make_info(batch_size=len(grammars) + 1)
+                info.grammars = [None, *grammars]
+                info.grammar_mask = MagicMock()
+                info.update_regex_vocab_mask()
+                for row, grammar in enumerate(grammars, start=1):
+                    grammar.fill_vocab_mask.assert_called_once_with(
+                        grammars[0].allocate_vocab_mask.return_value, row
+                    )
+                if all(decision is False for decision in decisions):
+                    self.assertIsNone(info.grammar_mask)
+                    grammars[0].move_vocab_mask.assert_not_called()
+                else:
+                    self.assertIsNotNone(info.grammar_mask)
+                    grammars[0].move_vocab_mask.assert_called_once()
+
     def test_no_grammars_clears_mask(self):
         """Test that None grammars clears the grammar_mask."""
         info = _make_info(batch_size=1)

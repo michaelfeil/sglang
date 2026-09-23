@@ -21,6 +21,33 @@ register_cpu_ci(2.0, "base-a-test-cpu")
 register_cpu_ci(est_time=5, suite="stage-b-test-cpu-intel")
 
 
+class TestReasonerMaskDecision(unittest.TestCase):
+    def test_thinking_and_generation_propagate_mask_decision(self):
+        grammar = MagicMock()
+        wrapper = ReasonerGrammarObject(grammar, think_end_ids=[5])
+        wrapper.maybe_init_reasoning(True)
+        mask = torch.full((1, 1), -1, dtype=torch.int32)
+        self.assertIs(wrapper.fill_vocab_mask(mask, 0), False)
+        grammar.fill_vocab_mask.assert_not_called()
+        wrapper.accept_token(5)
+        for decision in (False, True, None):
+            grammar.fill_vocab_mask.return_value = decision
+            self.assertIs(wrapper.fill_vocab_mask(mask, 0), decision)
+
+    def test_reasoning_token_filter_still_requires_mask(self):
+        wrapper = ReasonerGrammarObject(
+            None,
+            think_end_ids=[5],
+            think_excluded_token_ids=[3],
+            enable_token_filter=True,
+            token_filter_fn=set_token_filter_torch,
+        )
+        wrapper.maybe_init_reasoning(True)
+        mask = torch.full((1, 1), -1, dtype=torch.int32)
+        self.assertIs(wrapper.fill_vocab_mask(mask, 0), True)
+        self.assertEqual(mask[0, 0].item() & (1 << 3), 0)
+
+
 class _DummyTokenizer:
     def __init__(self, token_map):
         self._token_map = token_map
