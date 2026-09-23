@@ -344,6 +344,13 @@ class TestUpdatePenalties(CustomTestCase):
 # update_regex_vocab_mask
 class TestUpdateRegexVocabMask(CustomTestCase):
     def test_real_xgrammar_mixed_batch_and_transition_to_unrestricted(self):
+        self._check_real_xgrammar_mixed_batch("cpu")
+
+    @unittest.skipUnless(torch.cuda.is_available(), "CUDA is required")
+    def test_real_xgrammar_mixed_batch_cuda(self):
+        self._check_real_xgrammar_mixed_batch("cuda")
+
+    def _check_real_xgrammar_mixed_batch(self, device):
         import xgrammar as xgr
 
         from sglang.srt.constrained.xgrammar_backend import XGrammarGrammar
@@ -359,10 +366,10 @@ class TestUpdateRegexVocabMask(CustomTestCase):
         restricted = grammar("a")
         finished = grammar("b")
         finished.finished = True
-        info = _make_info(batch_size=4, vocab_size=3)
+        info = _make_info(batch_size=4, vocab_size=3, device=device)
         info.grammars = [unrestricted, restricted, None, finished]
         info.update_regex_vocab_mask()
-        logits = torch.zeros(4, 3)
+        logits = torch.zeros(4, 3, device=device)
         info.grammar_mask.apply(logits)
         expected = torch.zeros_like(logits)
         expected[1, 1:] = -float("inf")

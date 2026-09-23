@@ -30,7 +30,11 @@ def request(base_url, path, body=None):
         headers={"Content-Type": "application/json"},
     )
     with urllib.request.urlopen(req, timeout=1800) as response:
-        return json.load(response)
+        payload = response.read()
+        # Profiling control endpoints return plain text (or an empty body).
+        if path in {"/start_profile", "/stop_profile"}:
+            return payload.decode() if payload else None
+        return json.loads(payload)
 
 
 def run(args):
@@ -38,16 +42,34 @@ def run(args):
     prompt = args.prompt.read_text()
     args.output.mkdir(parents=True, exist_ok=True)
     server_info = request(args.url, "/get_server_info")
+    structural_tag = {
+        "type": "structural_tag",
+        "format": {
+            "type": "triggered_tags",
+            "triggers": ["<report>"],
+            "tags": [
+                {
+                    "begin": "<report>",
+                    "content": {"type": "json_schema", "json_schema": schema},
+                    "end": "</report>",
+                }
+            ],
+        },
+    }
     for name, constraint in (
         ("unconstrained", None),
         ("simple", SIMPLE_SCHEMA),
         ("complex", schema),
+        ("structural", structural_tag),
     ):
+        if name not in args.cases:
+            continue
         for batch_size in args.batches:
             case = f"{name}-b{batch_size}"
             params = {"temperature": 0, "max_new_tokens": args.max_tokens}
             if constraint is not None:
-                params["json_schema"] = json.dumps(constraint)
+                key = "structural_tag" if name == "structural" else "json_schema"
+                params[key] = json.dumps(constraint)
             payload = {"text": [prompt] * batch_size, "sampling_params": params}
             # Warm the grammar cache and model before either timing or tracing.
             request(args.url, "/generate", payload)
@@ -75,7 +97,9 @@ def run(args):
                 {
                     "output_dir": manifest["server_trace_dir"],
                     "activities": ["CPU", "GPU"],
-                    "with_stack": True,
+                    # Start on the next forward, avoiding idle scheduler spins.
+                    "start_step": 1,
+                    "with_stack": args.with_stack,
                     "record_shapes": True,
                     "profile_prefix": case,
                 },
@@ -95,27 +119,35 @@ def summarize(args):
             trace = json.load(source)
         events = trace if isinstance(trace, list) else trace.get("traceEvents", [])
         ranges = defaultdict(list)
+        gpu_ranges = defaultdict(list)
         for event in events:
-            if event.get("ph") == "X" and event.get("name", "").startswith("grammar."):
-                ranges[event["name"]].append(event["dur"])
+            name = event.get("name", "")
+            if event.get("ph") != "X" or not name.startswith(("grammar.", "step[")):
+                continue
+            if event.get("cat") == "user_annotation":
+                ranges[name].append(event["dur"])
+            elif event.get("cat") == "gpu_user_annotation":
+                gpu_ranges[name].append(event["dur"])
         report = {
             "trace": str(path),
             "structured_output_evidence": (
                 "grammar fill observed" if "grammar.fill" in ranges else "inconclusive"
             ),
             "cpu_ranges_us": {},
+            "gpu_ranges_us": {},
             "note": "Host ranges measure CPU work or GPU enqueue time, not GPU duration."
-            " Inspect CUDA kernels, copies, forward spans, and NCCL lanes for device time."
+            " GPU ranges are profiler-correlated device intervals; do not add nested spans."
             " Missing ranges in an older or partial trace do not prove absence of constraints.",
         }
-        for name, values in sorted(ranges.items()):
-            values.sort()
-            report["cpu_ranges_us"][name] = {
-                "count": len(values),
-                "median": statistics.median(values),
-                "p95": values[math.ceil(0.95 * len(values)) - 1],
-                "max": values[-1],
-            }
+        for key, group in (("cpu_ranges_us", ranges), ("gpu_ranges_us", gpu_ranges)):
+            for name, values in sorted(group.items()):
+                values.sort()
+                report[key][name] = {
+                    "count": len(values),
+                    "median": statistics.median(values),
+                    "p95": values[math.ceil(0.95 * len(values)) - 1],
+                    "max": values[-1],
+                }
         print(json.dumps(report, indent=2))
 
 
@@ -138,6 +170,13 @@ def main():
     capture.add_argument("--batches", type=positive_int, nargs="+", default=[1, 4])
     capture.add_argument("--max-tokens", type=positive_int, default=256)
     capture.add_argument("--repeats", type=positive_int, default=5)
+    capture.add_argument(
+        "--cases",
+        nargs="+",
+        choices=["unconstrained", "simple", "complex", "structural"],
+        default=["unconstrained", "simple", "complex"],
+    )
+    capture.add_argument("--with-stack", action="store_true")
     capture.set_defaults(func=run)
     summary = commands.add_parser("summarize")
     summary.add_argument("traces", type=Path, nargs="+")

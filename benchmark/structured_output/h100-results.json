@@ -1,0 +1,1638 @@
+{
+  "variants": {
+    "baseline": {
+      "complex-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/complex-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/complex-b1/complex-b1-1790135834.0383024-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 1.1195475525018992,
+          "p95": 1.1299678169998515,
+          "min": 1.0881193109999003,
+          "max": 1.1299678169998515
+        },
+        "completion_tokens_per_request": [
+          270
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 271,
+            "median": 48.059,
+            "p95": 59.967,
+            "min": 42.593,
+            "max": 105.916
+          },
+          "grammar.apply": {
+            "count": 271,
+            "median": 79.314,
+            "p95": 95.199,
+            "min": 72.55,
+            "max": 122.007
+          },
+          "grammar.fill": {
+            "count": 271,
+            "median": 21.912,
+            "p95": 57.321,
+            "min": 7.84,
+            "max": 86.124
+          },
+          "grammar.transfer": {
+            "count": 271,
+            "median": 61.379,
+            "p95": 76.841,
+            "min": 45.354,
+            "max": 118.045
+          },
+          "step[DECODE bs=1]": {
+            "count": 270,
+            "median": 826.653,
+            "p95": 982.959,
+            "min": 747.058,
+            "max": 3324.201
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25129.075,
+            "p95": 25129.075,
+            "min": 25129.075,
+            "max": 25129.075
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 271,
+            "median": 2.018,
+            "p95": 2.242,
+            "min": 1.57,
+            "max": 2.562
+          },
+          "grammar.transfer": {
+            "count": 271,
+            "median": 2.53,
+            "p95": 2.625,
+            "min": 2.114,
+            "max": 3.01
+          },
+          "step[DECODE bs=1]": {
+            "count": 270,
+            "median": 4067.5119999999997,
+            "p95": 4168.488,
+            "min": 3933.993,
+            "max": 5152.609
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25143.811,
+            "p95": 25143.811,
+            "min": 25143.811,
+            "max": 25143.811
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 271,
+          "median": 19.529,
+          "p95": 23.191,
+          "min": 17.352,
+          "max": 78.257
+        },
+        "matcher_fills_fully_inside_gpu_decode": 270,
+        "matcher_fill_count": 271
+      },
+      "complex-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/complex-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/complex-b4/complex-b4-1790135855.3719673-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 1.1790349949988013,
+          "p95": 1.1861617750000732,
+          "min": 1.1667463539997698,
+          "max": 1.1861617750000732
+        },
+        "completion_tokens_per_request": [
+          270
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 272,
+            "median": 52.861,
+            "p95": 64.281,
+            "min": 46.65,
+            "max": 113.997
+          },
+          "grammar.apply": {
+            "count": 272,
+            "median": 83.19800000000001,
+            "p95": 101.653,
+            "min": 74.189,
+            "max": 148.051
+          },
+          "grammar.fill": {
+            "count": 272,
+            "median": 31.5955,
+            "p95": 137.135,
+            "min": 7.562,
+            "max": 211.606
+          },
+          "grammar.transfer": {
+            "count": 272,
+            "median": 65.246,
+            "p95": 86.924,
+            "min": 44.737,
+            "max": 100.898
+          },
+          "step[DECODE bs=4]": {
+            "count": 270,
+            "median": 829.3425,
+            "p95": 1245.876,
+            "min": 758.859,
+            "max": 2926.451
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 36767.633,
+            "p95": 36767.633,
+            "min": 36767.633,
+            "max": 36767.633
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 34694.761,
+            "p95": 34694.761,
+            "min": 34694.761,
+            "max": 34694.761
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 272,
+            "median": 3.555,
+            "p95": 3.939,
+            "min": 1.986,
+            "max": 4.42
+          },
+          "grammar.transfer": {
+            "count": 272,
+            "median": 3.651,
+            "p95": 3.716,
+            "min": 2.051,
+            "max": 4.836
+          },
+          "step[DECODE bs=4]": {
+            "count": 270,
+            "median": 4190.318499999999,
+            "p95": 4293.22,
+            "min": 4049.451,
+            "max": 5383.731
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 36676.587,
+            "p95": 36676.587,
+            "min": 36676.587,
+            "max": 36676.587
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 34659.402,
+            "p95": 34659.402,
+            "min": 34659.402,
+            "max": 34659.402
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 272,
+          "median": 22.4095,
+          "p95": 27.584,
+          "min": 20.445,
+          "max": 35.568
+        },
+        "matcher_fills_fully_inside_gpu_decode": 228,
+        "matcher_fill_count": 272
+      },
+      "simple-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/simple-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/simple-b1/simple-b1-1790135808.423593-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.47773417999997037,
+          "p95": 0.4844662539981073,
+          "min": 0.4668291390007653,
+          "max": 0.4844662539981073
+        },
+        "completion_tokens_per_request": [
+          114
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 115,
+            "median": 50.8,
+            "p95": 64.746,
+            "min": 44.011,
+            "max": 81.861
+          },
+          "grammar.apply": {
+            "count": 115,
+            "median": 81.309,
+            "p95": 96.876,
+            "min": 72.376,
+            "max": 116.932
+          },
+          "grammar.fill": {
+            "count": 115,
+            "median": 45.389,
+            "p95": 55.855,
+            "min": 8.217,
+            "max": 73.318
+          },
+          "grammar.transfer": {
+            "count": 115,
+            "median": 64.116,
+            "p95": 77.918,
+            "min": 46.126,
+            "max": 101.109
+          },
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 827.406,
+            "p95": 1002.313,
+            "min": 748.866,
+            "max": 2701.374
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 26024.177,
+            "p95": 26024.177,
+            "min": 26024.177,
+            "max": 26024.177
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 115,
+            "median": 1.634,
+            "p95": 2.05,
+            "min": 1.57,
+            "max": 2.178
+          },
+          "grammar.transfer": {
+            "count": 115,
+            "median": 2.53,
+            "p95": 2.594,
+            "min": 2.05,
+            "max": 3.234
+          },
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 4047.2035,
+            "p95": 4072.547,
+            "min": 3827.97,
+            "max": 4862.538
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 26035.868,
+            "p95": 26035.868,
+            "min": 26035.868,
+            "max": 26035.868
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 115,
+          "median": 19.726,
+          "p95": 28.075,
+          "min": 18.164,
+          "max": 43.093
+        },
+        "matcher_fills_fully_inside_gpu_decode": 114,
+        "matcher_fill_count": 115
+      },
+      "simple-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/simple-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/simple-b4/simple-b4-1790135817.9742548-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.5362179759995342,
+          "p95": 0.562572454000474,
+          "min": 0.5288772309977503,
+          "max": 0.562572454000474
+        },
+        "completion_tokens_per_request": [
+          114,
+          119
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 121,
+            "median": 55.697,
+            "p95": 64.875,
+            "min": 46.12,
+            "max": 78.581
+          },
+          "grammar.apply": {
+            "count": 121,
+            "median": 90.937,
+            "p95": 105.953,
+            "min": 76.306,
+            "max": 120.939
+          },
+          "grammar.fill": {
+            "count": 121,
+            "median": 112.799,
+            "p95": 140.547,
+            "min": 15.148,
+            "max": 303.193
+          },
+          "grammar.transfer": {
+            "count": 121,
+            "median": 71.345,
+            "p95": 88.424,
+            "min": 49.92,
+            "max": 117.648
+          },
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 1085.573,
+            "p95": 1096.822,
+            "min": 1057.356,
+            "max": 1096.822
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 907.7674999999999,
+            "p95": 1054.119,
+            "min": 762.854,
+            "max": 2945.494
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25022.015,
+            "p95": 25022.015,
+            "min": 25022.015,
+            "max": 25022.015
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 23617.848,
+            "p95": 23617.848,
+            "min": 23617.848,
+            "max": 23617.848
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 121,
+            "median": 2.114,
+            "p95": 2.754,
+            "min": 1.794,
+            "max": 4.098
+          },
+          "grammar.transfer": {
+            "count": 121,
+            "median": 3.65,
+            "p95": 3.777,
+            "min": 2.082,
+            "max": 4.738
+          },
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 4192.43,
+            "p95": 4193.934,
+            "min": 4188.719,
+            "max": 4193.934
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 4173.8225,
+            "p95": 4200.782,
+            "min": 3958.224,
+            "max": 4998.507
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25011.022,
+            "p95": 25011.022,
+            "min": 25011.022,
+            "max": 25011.022
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 23671.956,
+            "p95": 23671.956,
+            "min": 23671.956,
+            "max": 23671.956
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 121,
+          "median": 24.117,
+          "p95": 28.724,
+          "min": 20.961,
+          "max": 36.791
+        },
+        "matcher_fills_fully_inside_gpu_decode": 119,
+        "matcher_fill_count": 121
+      },
+      "structural-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/structural-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/structural-b1/structural-b1-1790135873.298769-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.8313384690009116,
+          "p95": 0.8456396479996329,
+          "min": 0.8156214189984894,
+          "max": 0.8456396479996329
+        },
+        "completion_tokens_per_request": [
+          198
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 199,
+            "median": 51.197,
+            "p95": 62.469,
+            "min": 44.931,
+            "max": 175.347
+          },
+          "grammar.apply": {
+            "count": 199,
+            "median": 84.129,
+            "p95": 99.963,
+            "min": 73.745,
+            "max": 114.052
+          },
+          "grammar.fill": {
+            "count": 199,
+            "median": 22.615,
+            "p95": 59.455,
+            "min": 9.564,
+            "max": 75.178
+          },
+          "grammar.transfer": {
+            "count": 199,
+            "median": 64.864,
+            "p95": 75.303,
+            "min": 49.536,
+            "max": 115.136
+          },
+          "step[DECODE bs=1]": {
+            "count": 198,
+            "median": 845.4005,
+            "p95": 1019.363,
+            "min": 774.879,
+            "max": 2828.627
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 25488.177,
+            "p95": 25488.177,
+            "min": 25488.177,
+            "max": 25488.177
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 199,
+            "median": 2.018,
+            "p95": 2.242,
+            "min": 1.601,
+            "max": 2.498
+          },
+          "grammar.transfer": {
+            "count": 199,
+            "median": 2.53,
+            "p95": 2.595,
+            "min": 2.018,
+            "max": 3.362
+          },
+          "step[DECODE bs=1]": {
+            "count": 198,
+            "median": 4067.2174999999997,
+            "p95": 4165.073,
+            "min": 3928.466,
+            "max": 5016.59
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 25495.133,
+            "p95": 25495.133,
+            "min": 25495.133,
+            "max": 25495.133
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 199,
+          "median": 20.21,
+          "p95": 23.394,
+          "min": 17.749,
+          "max": 44.262
+        },
+        "matcher_fills_fully_inside_gpu_decode": 198,
+        "matcher_fill_count": 199
+      },
+      "structural-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/structural-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/structural-b4/structural-b4-1790135889.0058384-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.8767013245014823,
+          "p95": 0.8825094319981872,
+          "min": 0.8661903850006638,
+          "max": 0.8825094319981872
+        },
+        "completion_tokens_per_request": [
+          198
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 200,
+            "median": 49.997,
+            "p95": 61.011,
+            "min": 46.607,
+            "max": 103.693
+          },
+          "grammar.apply": {
+            "count": 200,
+            "median": 80.754,
+            "p95": 96.14,
+            "min": 75.689,
+            "max": 108.743
+          },
+          "grammar.fill": {
+            "count": 200,
+            "median": 28.545,
+            "p95": 126.282,
+            "min": 8.553,
+            "max": 361.7
+          },
+          "grammar.transfer": {
+            "count": 200,
+            "median": 63.769,
+            "p95": 77.797,
+            "min": 45.042,
+            "max": 116.798
+          },
+          "step[DECODE bs=4]": {
+            "count": 198,
+            "median": 827.7460000000001,
+            "p95": 1028.484,
+            "min": 757.912,
+            "max": 2671.988
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 26789.757,
+            "p95": 26789.757,
+            "min": 26789.757,
+            "max": 26789.757
+          },
+          "step[EXTEND bs=3 toks=471]": {
+            "count": 1,
+            "median": 24358.518,
+            "p95": 24358.518,
+            "min": 24358.518,
+            "max": 24358.518
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 200,
+            "median": 3.49,
+            "p95": 3.906,
+            "min": 1.666,
+            "max": 4.099
+          },
+          "grammar.transfer": {
+            "count": 200,
+            "median": 3.65,
+            "p95": 3.714,
+            "min": 2.05,
+            "max": 4.61
+          },
+          "step[DECODE bs=4]": {
+            "count": 198,
+            "median": 4207.267,
+            "p95": 4287.235,
+            "min": 4051.524,
+            "max": 4942.525
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 26800.637,
+            "p95": 26800.637,
+            "min": 26800.637,
+            "max": 26800.637
+          },
+          "step[EXTEND bs=3 toks=471]": {
+            "count": 1,
+            "median": 24407.342,
+            "p95": 24407.342,
+            "min": 24407.342,
+            "max": 24407.342
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 200,
+          "median": 21.924,
+          "p95": 27.055,
+          "min": 20.426,
+          "max": 35.073
+        },
+        "matcher_fills_fully_inside_gpu_decode": 198,
+        "matcher_fill_count": 200
+      },
+      "unconstrained-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/unconstrained-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/unconstrained-b1/unconstrained-b1-1790135788.452616-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.4760450605008373,
+          "p95": 0.4797341929988761,
+          "min": 0.46720942899992224,
+          "max": 0.4797341929988761
+        },
+        "completion_tokens_per_request": [
+          114
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 0,
+        "cpu_us": {
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 972.413,
+            "p95": 1409.785,
+            "min": 787.435,
+            "max": 4036.023
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 24823.922,
+            "p95": 24823.922,
+            "min": 24823.922,
+            "max": 24823.922
+          }
+        },
+        "gpu_us": {
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 4034.7,
+            "p95": 4054.19,
+            "min": 3812.03,
+            "max": 5228.689
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 24705.199,
+            "p95": 24705.199,
+            "min": 24705.199,
+            "max": 24705.199
+          }
+        },
+        "allocation_aten_full_cpu_us": null,
+        "matcher_fills_fully_inside_gpu_decode": 0,
+        "matcher_fill_count": 0
+      },
+      "unconstrained-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline/unconstrained-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/baseline-traces/unconstrained-b4/unconstrained-b4-1790135798.0827181-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.5361870480010111,
+          "p95": 0.5595108839988825,
+          "min": 0.5277368280003429,
+          "max": 0.5595108839988825
+        },
+        "completion_tokens_per_request": [
+          114,
+          119
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 0,
+        "cpu_us": {
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 984.507,
+            "p95": 1016.17,
+            "min": 972.118,
+            "max": 1016.17
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 832.2595,
+            "p95": 1023.417,
+            "min": 752.551,
+            "max": 2437.352
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25990.77,
+            "p95": 25990.77,
+            "min": 25990.77,
+            "max": 25990.77
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 24005.929,
+            "p95": 24005.929,
+            "min": 24005.929,
+            "max": 24005.929
+          }
+        },
+        "gpu_us": {
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 4193.778,
+            "p95": 4197.331,
+            "min": 4191.571,
+            "max": 4197.331
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 4184.035,
+            "p95": 4196.147,
+            "min": 3954.324,
+            "max": 4852.113
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 26002.98,
+            "p95": 26002.98,
+            "min": 26002.98,
+            "max": 26002.98
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 24041.772,
+            "p95": 24041.772,
+            "min": 24041.772,
+            "max": 24041.772
+          }
+        },
+        "allocation_aten_full_cpu_us": null,
+        "matcher_fills_fully_inside_gpu_decode": 0,
+        "matcher_fill_count": 0
+      }
+    },
+    "patched": {
+      "complex-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/complex-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/complex-b1/complex-b1-1790135561.8567636-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 1.1152993550003885,
+          "p95": 1.1276097609988938,
+          "min": 1.104905764997966,
+          "max": 1.1276097609988938
+        },
+        "completion_tokens_per_request": [
+          270
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 270,
+            "median": 52.1365,
+            "p95": 63.366,
+            "min": 43.522,
+            "max": 92.398
+          },
+          "grammar.apply": {
+            "count": 270,
+            "median": 85.1605,
+            "p95": 102.036,
+            "min": 71.325,
+            "max": 126.705
+          },
+          "grammar.fill": {
+            "count": 270,
+            "median": 23.1735,
+            "p95": 60.059,
+            "min": 15.666,
+            "max": 81.791
+          },
+          "grammar.transfer": {
+            "count": 270,
+            "median": 68.957,
+            "p95": 85.339,
+            "min": 48.286,
+            "max": 96.256
+          },
+          "step[DECODE bs=1]": {
+            "count": 270,
+            "median": 907.029,
+            "p95": 999.354,
+            "min": 744.593,
+            "max": 2147.561
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25552.364,
+            "p95": 25552.364,
+            "min": 25552.364,
+            "max": 25552.364
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 270,
+            "median": 2.05,
+            "p95": 2.242,
+            "min": 1.602,
+            "max": 2.562
+          },
+          "grammar.transfer": {
+            "count": 270,
+            "median": 2.5140000000000002,
+            "p95": 2.594,
+            "min": 2.146,
+            "max": 3.554
+          },
+          "step[DECODE bs=1]": {
+            "count": 270,
+            "median": 4063.6535000000003,
+            "p95": 4163.317,
+            "min": 3843.99,
+            "max": 4909.107
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25474.196,
+            "p95": 25474.196,
+            "min": 25474.196,
+            "max": 25474.196
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 270,
+          "median": 21.299,
+          "p95": 24.222,
+          "min": 18.023,
+          "max": 45.109
+        },
+        "matcher_fills_fully_inside_gpu_decode": 269,
+        "matcher_fill_count": 270
+      },
+      "complex-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/complex-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/complex-b4/complex-b4-1790135582.9407618-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 1.1768175974993937,
+          "p95": 1.1898659110011067,
+          "min": 1.1609890489999088,
+          "max": 1.1898659110011067
+        },
+        "completion_tokens_per_request": [
+          270
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 271,
+            "median": 50.809,
+            "p95": 61.582,
+            "min": 46.29,
+            "max": 100.683
+          },
+          "grammar.apply": {
+            "count": 271,
+            "median": 79.519,
+            "p95": 95.348,
+            "min": 72.178,
+            "max": 106.589
+          },
+          "grammar.fill": {
+            "count": 271,
+            "median": 30.648,
+            "p95": 132.949,
+            "min": 21.104,
+            "max": 175.56
+          },
+          "grammar.transfer": {
+            "count": 271,
+            "median": 64.76,
+            "p95": 81.028,
+            "min": 52.675,
+            "max": 135.917
+          },
+          "step[DECODE bs=4]": {
+            "count": 270,
+            "median": 823.086,
+            "p95": 1056.389,
+            "min": 748.377,
+            "max": 2643.987
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 32296.385,
+            "p95": 32296.385,
+            "min": 32296.385,
+            "max": 32296.385
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 24359.739,
+            "p95": 24359.739,
+            "min": 24359.739,
+            "max": 24359.739
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 271,
+            "median": 3.554,
+            "p95": 3.97,
+            "min": 1.986,
+            "max": 4.29
+          },
+          "grammar.transfer": {
+            "count": 271,
+            "median": 3.65,
+            "p95": 3.81,
+            "min": 2.146,
+            "max": 4.963
+          },
+          "step[DECODE bs=4]": {
+            "count": 270,
+            "median": 4190.236000000001,
+            "p95": 4291.205,
+            "min": 3936.684,
+            "max": 5046.19
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 32279.6,
+            "p95": 32279.6,
+            "min": 32279.6,
+            "max": 32279.6
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 24394.045,
+            "p95": 24394.045,
+            "min": 24394.045,
+            "max": 24394.045
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 271,
+          "median": 22.169,
+          "p95": 27.269,
+          "min": 20.499,
+          "max": 35.717
+        },
+        "matcher_fills_fully_inside_gpu_decode": 269,
+        "matcher_fill_count": 271
+      },
+      "simple-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/simple-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/simple-b1/simple-b1-1790135536.1648693-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.47963324850024946,
+          "p95": 0.4839834990016243,
+          "min": 0.47366464500009897,
+          "max": 0.4839834990016243
+        },
+        "completion_tokens_per_request": [
+          114
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 114,
+            "median": 45.932,
+            "p95": 56.841,
+            "min": 43.618,
+            "max": 104.639
+          },
+          "grammar.apply": {
+            "count": 114,
+            "median": 76.659,
+            "p95": 89.74,
+            "min": 71.146,
+            "max": 109.779
+          },
+          "grammar.fill": {
+            "count": 114,
+            "median": 44.959,
+            "p95": 53.29,
+            "min": 18.225,
+            "max": 63.025
+          },
+          "grammar.transfer": {
+            "count": 114,
+            "median": 61.2315,
+            "p95": 76.079,
+            "min": 48.885,
+            "max": 84.57
+          },
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 847.2660000000001,
+            "p95": 965.334,
+            "min": 795.745,
+            "max": 2611.165
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25656.302,
+            "p95": 25656.302,
+            "min": 25656.302,
+            "max": 25656.302
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 114,
+            "median": 1.634,
+            "p95": 2.05,
+            "min": 1.57,
+            "max": 2.306
+          },
+          "grammar.transfer": {
+            "count": 114,
+            "median": 2.53,
+            "p95": 2.594,
+            "min": 2.018,
+            "max": 3.394
+          },
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 3852.605,
+            "p95": 4055.421,
+            "min": 3821.053,
+            "max": 4809.02
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 25684.096,
+            "p95": 25684.096,
+            "min": 25684.096,
+            "max": 25684.096
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 114,
+          "median": 19.086,
+          "p95": 28.656,
+          "min": 17.628,
+          "max": 78.55
+        },
+        "matcher_fills_fully_inside_gpu_decode": 113,
+        "matcher_fill_count": 114
+      },
+      "simple-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/simple-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/simple-b4/simple-b4-1790135545.799577-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.5362847235010122,
+          "p95": 0.5452706389987725,
+          "min": 0.5309183190001932,
+          "max": 0.5452706389987725
+        },
+        "completion_tokens_per_request": [
+          114,
+          119
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 120,
+            "median": 51.661,
+            "p95": 64.212,
+            "min": 46.502,
+            "max": 83.057
+          },
+          "grammar.apply": {
+            "count": 120,
+            "median": 80.69749999999999,
+            "p95": 95.425,
+            "min": 73.064,
+            "max": 98.969
+          },
+          "grammar.fill": {
+            "count": 120,
+            "median": 102.215,
+            "p95": 122.409,
+            "min": 19.532,
+            "max": 129.011
+          },
+          "grammar.transfer": {
+            "count": 120,
+            "median": 64.7595,
+            "p95": 77.493,
+            "min": 47.501,
+            "max": 109.412
+          },
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 1023.428,
+            "p95": 1036.809,
+            "min": 893.565,
+            "max": 1036.809
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 792.949,
+            "p95": 901.965,
+            "min": 736.865,
+            "max": 1601.402
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 24653.08,
+            "p95": 24653.08,
+            "min": 24653.08,
+            "max": 24653.08
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 25929.414,
+            "p95": 25929.414,
+            "min": 25929.414,
+            "max": 25929.414
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 120,
+            "median": 2.119,
+            "p95": 2.793,
+            "min": 1.798,
+            "max": 3.948
+          },
+          "grammar.transfer": {
+            "count": 120,
+            "median": 3.659,
+            "p95": 3.787,
+            "min": 2.152,
+            "max": 4.91
+          },
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 4204.399,
+            "p95": 4210.302,
+            "min": 4200.71,
+            "max": 4210.302
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 4193.4915,
+            "p95": 4205.747,
+            "min": 4132.924,
+            "max": 4829.45
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 24731.772,
+            "p95": 24731.772,
+            "min": 24731.772,
+            "max": 24731.772
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 26046.963,
+            "p95": 26046.963,
+            "min": 26046.963,
+            "max": 26046.963
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 120,
+          "median": 21.570999999999998,
+          "p95": 26.398,
+          "min": 19.663,
+          "max": 35.911
+        },
+        "matcher_fills_fully_inside_gpu_decode": 102,
+        "matcher_fill_count": 120
+      },
+      "structural-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/structural-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/structural-b1/structural-b1-1790135666.5828462-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.8282320635007636,
+          "p95": 0.837250534001214,
+          "min": 0.8168421490008768,
+          "max": 0.837250534001214
+        },
+        "completion_tokens_per_request": [
+          198
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 11,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 198,
+            "median": 49.77,
+            "p95": 65.151,
+            "min": 44.418,
+            "max": 99.692
+          },
+          "grammar.apply": {
+            "count": 198,
+            "median": 80.9325,
+            "p95": 98.958,
+            "min": 72.406,
+            "max": 125.812
+          },
+          "grammar.fill": {
+            "count": 198,
+            "median": 22.022,
+            "p95": 60.317,
+            "min": 17.113,
+            "max": 75.183
+          },
+          "grammar.transfer": {
+            "count": 198,
+            "median": 64.82,
+            "p95": 84.817,
+            "min": 55.123,
+            "max": 178.849
+          },
+          "step[DECODE bs=1]": {
+            "count": 198,
+            "median": 841.0260000000001,
+            "p95": 1083.002,
+            "min": 774.344,
+            "max": 3347.55
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 27387.926,
+            "p95": 27387.926,
+            "min": 27387.926,
+            "max": 27387.926
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 198,
+            "median": 2.05,
+            "p95": 2.242,
+            "min": 1.602,
+            "max": 2.402
+          },
+          "grammar.transfer": {
+            "count": 198,
+            "median": 2.53,
+            "p95": 2.626,
+            "min": 2.018,
+            "max": 4.13
+          },
+          "step[DECODE bs=1]": {
+            "count": 198,
+            "median": 3942.261,
+            "p95": 4165.634,
+            "min": 3835.269,
+            "max": 5059.932
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 27379.476,
+            "p95": 27379.476,
+            "min": 27379.476,
+            "max": 27379.476
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 198,
+          "median": 20.496000000000002,
+          "p95": 28.891,
+          "min": 18.678,
+          "max": 73.384
+        },
+        "matcher_fills_fully_inside_gpu_decode": 197,
+        "matcher_fill_count": 198
+      },
+      "structural-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/structural-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/structural-b4/structural-b4-1790135682.4675882-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.8778225124988239,
+          "p95": 0.9636312200018438,
+          "min": 0.8703500209994672,
+          "max": 0.9636312200018438
+        },
+        "completion_tokens_per_request": [
+          198
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 44,
+        "cpu_us": {
+          "grammar.allocate": {
+            "count": 199,
+            "median": 55.451,
+            "p95": 70.618,
+            "min": 47.518,
+            "max": 99.625
+          },
+          "grammar.apply": {
+            "count": 199,
+            "median": 84.655,
+            "p95": 110.968,
+            "min": 74.063,
+            "max": 150.566
+          },
+          "grammar.fill": {
+            "count": 199,
+            "median": 33.24,
+            "p95": 152.934,
+            "min": 23.684,
+            "max": 214.029
+          },
+          "grammar.transfer": {
+            "count": 199,
+            "median": 68.437,
+            "p95": 93.322,
+            "min": 56.152,
+            "max": 148.12
+          },
+          "step[DECODE bs=4]": {
+            "count": 198,
+            "median": 918.6305,
+            "p95": 1363.034,
+            "min": 773.169,
+            "max": 1739.464
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 31035.527,
+            "p95": 31035.527,
+            "min": 31035.527,
+            "max": 31035.527
+          },
+          "step[EXTEND bs=3 toks=471]": {
+            "count": 1,
+            "median": 24991.237,
+            "p95": 24991.237,
+            "min": 24991.237,
+            "max": 24991.237
+          }
+        },
+        "gpu_us": {
+          "grammar.apply": {
+            "count": 199,
+            "median": 3.515,
+            "p95": 3.966,
+            "min": 1.646,
+            "max": 4.256
+          },
+          "grammar.transfer": {
+            "count": 199,
+            "median": 3.676,
+            "p95": 3.838,
+            "min": 2.064,
+            "max": 4.804
+          },
+          "step[DECODE bs=4]": {
+            "count": 198,
+            "median": 4102.0375,
+            "p95": 4301.504,
+            "min": 3998.389,
+            "max": 5155.32
+          },
+          "step[EXTEND bs=1 toks=157]": {
+            "count": 1,
+            "median": 31160.254,
+            "p95": 31160.254,
+            "min": 31160.254,
+            "max": 31160.254
+          },
+          "step[EXTEND bs=3 toks=471]": {
+            "count": 1,
+            "median": 25165.364,
+            "p95": 25165.364,
+            "min": 25165.364,
+            "max": 25165.364
+          }
+        },
+        "allocation_aten_full_cpu_us": {
+          "count": 199,
+          "median": 23.738,
+          "p95": 28.581,
+          "min": 20.774,
+          "max": 50.901
+        },
+        "matcher_fills_fully_inside_gpu_decode": 185,
+        "matcher_fill_count": 199
+      },
+      "unconstrained-b1": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/unconstrained-b1.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/unconstrained-b1/unconstrained-b1-1790135515.545913-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.4756041654982255,
+          "p95": 0.4814921189972665,
+          "min": 0.4553549699994619,
+          "max": 0.4814921189972665
+        },
+        "completion_tokens_per_request": [
+          114
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 0,
+        "cpu_us": {
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 791.5005,
+            "p95": 950.125,
+            "min": 727.136,
+            "max": 2810.51
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 27565.42,
+            "p95": 27565.42,
+            "min": 27565.42,
+            "max": 27565.42
+          }
+        },
+        "gpu_us": {
+          "step[DECODE bs=1]": {
+            "count": 114,
+            "median": 3850.0865000000003,
+            "p95": 4061.048,
+            "min": 3827.574,
+            "max": 5054.332
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 27445.908,
+            "p95": 27445.908,
+            "min": 27445.908,
+            "max": 27445.908
+          }
+        },
+        "allocation_aten_full_cpu_us": null,
+        "matcher_fills_fully_inside_gpu_decode": 0,
+        "matcher_fill_count": 0
+      },
+      "unconstrained-b4": {
+        "manifest": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched/unconstrained-b4.json",
+        "trace": "/workspace/model-performance/michaelfeil/sglang-gpu-evidence/patched-traces/unconstrained-b4/unconstrained-b4-1790135525.0104861-TP-0.trace.json.gz",
+        "wall_seconds": {
+          "count": 10,
+          "median": 0.5330275044980226,
+          "p95": 0.5498553729994455,
+          "min": 0.5265278340011719,
+          "max": 0.5498553729994455
+        },
+        "completion_tokens_per_request": [
+          114,
+          119
+        ],
+        "finish_reasons": [
+          "stop"
+        ],
+        "validated_responses_including_profile": 0,
+        "cpu_us": {
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 853.414,
+            "p95": 926.858,
+            "min": 849.12,
+            "max": 926.858
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 799.1125,
+            "p95": 897.053,
+            "min": 745.625,
+            "max": 1316.707
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 33552.29,
+            "p95": 33552.29,
+            "min": 33552.29,
+            "max": 33552.29
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 31288.973,
+            "p95": 31288.973,
+            "min": 31288.973,
+            "max": 31288.973
+          }
+        },
+        "gpu_us": {
+          "step[DECODE bs=3]": {
+            "count": 5,
+            "median": 3978.807,
+            "p95": 3981.11,
+            "min": 3976.023,
+            "max": 3981.11
+          },
+          "step[DECODE bs=4]": {
+            "count": 114,
+            "median": 4172.2765,
+            "p95": 4198.932,
+            "min": 3971.223,
+            "max": 5189.865
+          },
+          "step[EXTEND bs=1 toks=120]": {
+            "count": 1,
+            "median": 33511.315,
+            "p95": 33511.315,
+            "min": 33511.315,
+            "max": 33511.315
+          },
+          "step[EXTEND bs=3 toks=360]": {
+            "count": 1,
+            "median": 31269.803,
+            "p95": 31269.803,
+            "min": 31269.803,
+            "max": 31269.803
+          }
+        },
+        "allocation_aten_full_cpu_us": null,
+        "matcher_fills_fully_inside_gpu_decode": 0,
+        "matcher_fill_count": 0
+      }
+    }
+  },
+  "comparisons": {
+    "complex-b1": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": -0.3794566378191866
+    },
+    "complex-b4": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": -0.18806884518383082
+    },
+    "simple-b1": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": 0.3975157273191643
+    },
+    "simple-b4": {
+      "identical_output_texts": false,
+      "patched_wall_change_percent": 0.012447829887385353
+    },
+    "structural-b1": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": -0.3736631487631259
+    },
+    "structural-b4": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": 0.12788711115261364
+    },
+    "unconstrained-b1": {
+      "identical_output_texts": true,
+      "patched_wall_change_percent": -0.09261623304062105
+    },
+    "unconstrained-b4": {
+      "identical_output_texts": false,
+      "patched_wall_change_percent": -0.5892614368004256
+    }
+  }
+}

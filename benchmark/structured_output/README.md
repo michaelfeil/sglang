@@ -1,5 +1,9 @@
 # Warm structured-output profiling
 
+[Measured H100 results](H100_RESULTS.md): model forward dominated the tested
+Qwen3-4B workloads; CPU mask fill already overlapped GPU decode, and padded
+vocabulary entries prevented the unrestricted-mask fast path from firing.
+
 This harness compares unconstrained, simple-schema, and supplied-schema requests
 at batch sizes 1 and 4. It warms each case, records unprofiled end-to-end wall times,
 then captures a separate CPU/GPU trace. Use a dedicated, otherwise idle SGLang
@@ -43,10 +47,10 @@ Unrestricted steps have fill ranges but no transfer/apply ranges. Requests whose
 grammars are all inactive have no grammar ranges. Older builds do not emit these
 names, so absence in an existing trace is inconclusive.
 
-The summary reports **CPU span** durations, not H2D or kernel durations. Inspect
-device copy/kernel lanes and their correlation to these spans in Perfetto or
-Nsight Systems. Inspect model-forward/CUDA-graph lanes and NCCL separately; do not
-add overlapping CPU and GPU durations. `aten::full` alone does not prove grammar
+The summary separates **CPU span** durations from profiler-correlated **GPU
+intervals**, including forward spans. Inspect copy/kernel lanes in Perfetto or
+Nsight Systems for details; do not add overlapping CPU and GPU durations or nested
+spans. `aten::full` alone does not prove grammar
 use. A grammar fill range or a request manifest carrying an active constraint is
 stronger evidence; a forward-only capture can miss sampling and all grammar work.
 
@@ -67,21 +71,31 @@ Based on mainline `525f14040dd77da760b713848a803fdd4d32c2b7`:
   storage until the last consumer completes, including overlap and speculative
   paths. A stable tensor address alone is not sufficient.
 
-No saved `.pt.trace.json*`, `.trace.json*`, `.nsys-rep`, or `.pftrace` files were
+Initially, no saved `.pt.trace.json*`, `.trace.json*`, `.nsys-rep`, or `.pftrace` files were
 found in the accessible workspace and `/tmp` search during this investigation.
 The existing Dynamo `examples/backends/sglang/test_sglang_profile.py` uses ordinary
 `/v1/completions` requests without a schema; it is not a structured-output profile.
-The development host has no functioning NVIDIA driver, so this patch has no
-model-forward GPU profile or end-to-end performance result yet.
+GPU access subsequently became available, and the comparison above collected 16
+forward-pass traces on an H100 with structured-output requests explicitly
+identified in manifests and grammar spans.
 
-CPU validation: 112 tests passed across the sampling-batch, base-grammar, and
+Validation: 113 tests passed across the sampling-batch, base-grammar, and
 reasoner-grammar suites, including real XGrammar mixed-row masking and the
-transition from restricted output to an unrestricted batch. The harness also
-passed a mocked six-case capture smoke check and plain/gzip trace-summary checks.
+transition from restricted output to an unrestricted batch on CPU and CUDA.
+Two client tests cover plain-text/empty profiling endpoint responses and separate
+CPU/GPU annotation summaries in plain/gzip traces.
 
 ```bash
 PYTHONPATH=python python -m pytest -q \
   test/registered/unit/sampling/test_sampling_batch_info.py \
   test/registered/unit/constrained/test_base_grammar_backend.py \
   test/registered/unit/constrained/test_reasoner_grammar_backend.py
+python benchmark/structured_output/test_profile_masks.py
 ```
+
+Captures start on the next forward pass to avoid recording idle scheduler spins.
+Stack collection is disabled by default; enable it with `--with-stack` when
+needed. `--cases` can select individual cases or the optional `structural` case,
+which wraps the supplied schema inside `<report>...</report>` and allows free
+text outside the tags. Use `example-tagged-prompt.txt` with that case; the supplied
+example prompts already contain Qwen ChatML framing.

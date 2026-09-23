@@ -1,0 +1,196 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "latency"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}-[0-9]{4}$"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "warn",
+                  "fail"
+                ]
+              },
+              "details": {
+                "type": "object",
+                "properties": {
+                  "p50_ms": {
+                    "type": "number"
+                  },
+                  "p99_ms": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "p50_ms",
+                  "p99_ms"
+                ],
+                "additionalProperties": false
+              },
+              "explanation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "id",
+              "status",
+              "details",
+              "explanation"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "availability"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}-[0-9]{4}$"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "warn",
+                  "fail"
+                ]
+              },
+              "details": {
+                "type": "object",
+                "properties": {
+                  "uptime_percent": {
+                    "type": "number"
+                  },
+                  "region": {
+                    "enum": [
+                      "us-east",
+                      "us-west",
+                      "eu-west"
+                    ]
+                  }
+                },
+                "required": [
+                  "uptime_percent",
+                  "region"
+                ],
+                "additionalProperties": false
+              },
+              "explanation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "id",
+              "status",
+              "details",
+              "explanation"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "capacity"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}-[0-9]{4}$"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "warn",
+                  "fail"
+                ]
+              },
+              "details": {
+                "type": "object",
+                "properties": {
+                  "gpu_count": {
+                    "type": "integer"
+                  },
+                  "utilization": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "gpu_count",
+                  "utilization"
+                ],
+                "additionalProperties": false
+              },
+              "explanation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "id",
+              "status",
+              "details",
+              "explanation"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "recommendation": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            },
+            "action": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "priority",
+            "action"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "service",
+    "summary",
+    "checks",
+    "recommendation"
+  ],
+  "additionalProperties": false
+}

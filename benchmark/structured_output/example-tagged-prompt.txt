@@ -1,0 +1,5 @@
+<|im_start|>system
+Follow the requested output format exactly. Do not use markdown fences.<|im_end|>
+<|im_start|>user
+Write five short sentences explaining why service monitoring matters. Then write <report> followed by a JSON object and </report>. The JSON report must have service, summary, checks, and recommendation fields. Use the atlas inference service and exactly three checks for latency, availability, and capacity. Each check has kind, id (two capital letters, dash, four digits), status (pass, warn, fail), details, and explanation. Details for latency have p50_ms and p99_ms; availability has uptime_percent and region (us-east); capacity has gpu_count and utilization. Recommendation is null. Keep the whole response under 230 words.<|im_end|>
+<|im_start|>assistant

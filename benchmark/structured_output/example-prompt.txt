@@ -1,0 +1,5 @@
+<|im_start|>system
+You write concise JSON reports. Output only valid JSON without markdown. Follow the required output schema. If the schema only has a text field, put the report in that field.<|im_end|>
+<|im_start|>user
+Write a fictional service health report for the atlas inference service. Include a short summary, exactly three checks covering latency, availability and capacity, and a recommendation. Check IDs have two uppercase letters, a dash, and four digits. Give each check a status, relevant measurements, and one short sentence explaining it. Keep the entire report under 180 words.<|im_end|>
+<|im_start|>assistant
