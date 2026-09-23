@@ -68,7 +68,7 @@ Numerical results and raw artifact paths: [h100-results.json](h100-results.json)
 
 Use the same launch command for each checkout, with `PYTHONPATH` pointing to that checkout’s `python` directory:
 Apply [baseline-instrumentation.patch](baseline-instrumentation.patch) to the stated
-mainline commit for the baseline capture; it adds annotations only.
+mainline commit with `git apply --unidiff-zero` for the baseline capture; it adds annotations only.
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 PYTHONPATH=python python -m sglang.launch_server \

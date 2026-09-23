@@ -8,6 +8,7 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
+matplotlib.rcParams["svg.fonttype"] = "none"
 import matplotlib.pyplot as plt
 
 
@@ -73,6 +74,11 @@ def main():
     ax.grid(axis="x", alpha=0.2)
     ax.set_axisbelow(True)
     fig.savefig(args.output)
+    if args.output.suffix == ".svg":
+        args.output.write_text(
+            "\n".join(line.rstrip() for line in args.output.read_text().splitlines())
+            + "\n"
+        )
 
 
 if __name__ == "__main__":
